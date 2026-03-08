@@ -838,8 +838,37 @@
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <script>
-  const targetDate = new Date(2026, 2, 11, 19, 30, 0).getTime();
+    // Confeti al abrir la página 🎉
+    document.addEventListener("DOMContentLoaded", function(){
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const colors = ["#8b1e2d", "#b4495b", "#f7f1ee", "#efe2df", "#c9a227"];
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.5 },
+        colors: colors
+      });
+      setTimeout(function(){
+        confetti({
+          particleCount: 80,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: colors
+        });
+        confetti({
+          particleCount: 80,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: colors
+        });
+      }, 250);
+    });
+
+    const targetDate = new Date(2026, 2, 11, 19, 30, 0).getTime();
 
     const daysEl = document.getElementById("days");
     const hoursEl = document.getElementById("hours");
