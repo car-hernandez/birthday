@@ -92,7 +92,7 @@
       grid-template-columns:1fr 1.08fr;
       border:1px solid var(--line);
       box-shadow:var(--shadow), var(--glow);
-      animation:cardEntrance 1s ease both;
+      animation:cardEntrance 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
       position:relative;
     }
 
@@ -117,6 +117,7 @@
       padding:28px;
       min-height:680px;
       overflow:hidden;
+      animation:artReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
     }
 
     .art::before,
@@ -294,6 +295,7 @@
       flex-direction:column;
       justify-content:center;
       position:relative;
+      animation:contentReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
     }
 
     .eyebrow{
@@ -475,6 +477,28 @@
       }
     }
 
+    @keyframes artReveal{
+      from{
+        opacity:0;
+        transform:translateY(24px) scale(0.96);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+      }
+    }
+
+    @keyframes contentReveal{
+      from{
+        opacity:0;
+        transform:translateY(16px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
     @keyframes floatGlow{
       0%,100%{ transform:translateY(0px); }
       50%{ transform:translateY(-14px); }
@@ -483,6 +507,16 @@
     @keyframes glassFloat{
       0%,100%{ transform:translateY(0px); }
       50%{ transform:translateY(-10px); }
+    }
+
+    @keyframes glassFloatMobile{
+      0%,100%{ transform:scale(0.44) translateY(0); }
+      50%{ transform:scale(0.44) translateY(-8px); }
+    }
+
+    @keyframes glassFloatMobileSmall{
+      0%,100%{ transform:scale(0.38) translateY(0); }
+      50%{ transform:scale(0.38) translateY(-6px); }
     }
 
     @keyframes wineWave{
@@ -497,27 +531,54 @@
       50%{ opacity:1; transform:scale(1.35); }
     }
 
+    @media (prefers-reduced-motion: reduce){
+      .invitation, .art, .content{
+        animation:none;
+      }
+    }
+
     @media (max-width: 900px){
-      .invitation{
-        grid-template-columns:1fr;
+      body{
+        padding:0;
+        align-items:stretch;
+        min-height:100dvh;
       }
 
-      .content{
-        order:1;
-        padding:30px 22px 20px;
+      .invitation{
+        display:flex;
+        flex-direction:column;
+        grid-template-columns:unset;
+        grid-template-rows:unset;
+        min-height:100dvh;
+        height:100dvh;
+        border-radius:0;
+        align-self:stretch;
+        overflow:hidden;
       }
 
       .art{
+        flex-shrink:0;
+        order:1;
+        min-height:min(42vh, 280px);
+        padding:16px 10px 12px;
+        animation:artReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+      }
+
+      .content{
         order:2;
-        min-height:250px;
-        padding:8px 10px 20px;
+        flex:1;
+        min-height:0;
+        overflow-y:auto;
+        -webkit-overflow-scrolling:touch;
+        padding:20px 22px 24px;
+        animation:contentReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
       }
 
       .glass-wrap{
-        max-width:170px;
-        height:220px;
-        transform:scale(.48);
-        transform-origin:center top;
+        max-width:150px;
+        height:200px;
+        transform-origin:center center;
+        animation:glassFloatMobile 5.5s ease-in-out infinite;
       }
 
       .title .small{
@@ -529,35 +590,64 @@
       }
 
       .intro{
-        font-size:16px;
-        line-height:1.65;
+        font-size:15px;
+        line-height:1.55;
+        margin-bottom:12px;
       }
 
       .countdown-card{
         grid-template-columns:repeat(4, 1fr);
-        gap:8px;
+        gap:6px;
+        margin:2px 0 12px;
       }
 
       .time-box{
-        padding:12px 6px;
-        border-radius:16px;
+        padding:10px 6px;
+        border-radius:14px;
       }
 
       .time-box strong{
-        font-size:28px;
+        font-size:24px;
+      }
+
+      .time-box span{
+        font-size:10px;
+        margin-top:4px;
+      }
+
+      .section{
+        margin-bottom:8px;
       }
 
       .section h3{
-        font-size:30px;
+        font-size:26px;
+        margin-bottom:4px;
       }
 
       .section p{
-        font-size:16px;
-        line-height:1.55;
+        font-size:15px;
+        line-height:1.5;
       }
 
       .cta{
         flex-direction:column;
+        gap:10px;
+        margin-top:12px;
+      }
+
+      .btn{
+        min-height:48px;
+        padding:12px 20px;
+      }
+
+      .signature{
+        margin-top:16px;
+        font-size:34px;
+      }
+
+      .footer-note{
+        margin-top:6px;
+        font-size:12px;
       }
 
       .btn{
@@ -575,17 +665,8 @@
     }
 
     @media (max-width: 480px){
-      body{
-        padding:12px;
-        align-items:flex-start;
-      }
-
-      .invitation{
-        border-radius:24px;
-      }
-
       .content{
-        padding:24px 16px 14px;
+        padding:16px 18px 20px;
       }
 
       .eyebrow{
@@ -631,18 +712,17 @@
       }
 
       .art{
-        min-height:190px;
+        min-height:min(38vh, 220px);
       }
 
       .glass-wrap{
-        max-width:145px;
-        height:190px;
-        transform:scale(.40);
+        max-width:130px;
+        height:180px;
+        animation:glassFloatMobileSmall 5.5s ease-in-out infinite;
       }
 
       .signature{
-        margin-top:20px;
-        font-size:34px;
+        font-size:30px;
       }
     }
   </style>
